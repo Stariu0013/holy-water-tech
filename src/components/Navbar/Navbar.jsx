@@ -1,16 +1,29 @@
 import React from "react";
 
-import calendar from '../../assets/img/calendar.svg';
+import calendar from "../../assets/img/calendar.svg";
+import dayjs from "dayjs";
 
-const Navbar = () => {
+const Navbar = (props) => {
+    const {
+        next,
+        prev,
+        monthIndex,
+        handleOpenModal
+    } = props;
+
     return (
         <div>
-            <button>Add event</button>
+            <button onClick={handleOpenModal}>Add event</button>
             <div>
-                <button>
+                <button onClick={prev}>
                     prevMonth
                 </button>
-                <button>
+
+                <p>{
+                    dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")
+                }</p>
+
+                <button onClick={next}>
                     nextMonth
                 </button>
 
