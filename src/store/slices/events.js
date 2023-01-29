@@ -17,7 +17,7 @@ export const eventsSlice = createSlice({
             state.selectedEvent = null;
         },
         removeEvent: (state, action) => {
-            return state.filter(event => event.id !== action.payload.id);
+            state.events = state.events.filter(event => event.id !== action.payload.id);
         },
         setSelectedEvent: (state, action) => {
             state.selectedEvent = action.payload;

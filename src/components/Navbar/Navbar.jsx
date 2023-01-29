@@ -1,7 +1,7 @@
 import React from "react";
-
-import calendar from "../../assets/img/calendar.svg";
 import dayjs from "dayjs";
+
+import calendarIcon from "../../assets/img/calendar.svg";
 
 const Navbar = (props) => {
     const {
@@ -27,7 +27,7 @@ const Navbar = (props) => {
                     nextMonth
                 </button>
 
-                <img src={calendar} alt="calendar" />
+                <img src={calendarIcon} alt="calendar" />
             </div>
         </div>
     );

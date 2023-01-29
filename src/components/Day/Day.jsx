@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-import styles from "./Day.module.scss";
 import dayjs from "dayjs";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedEvent } from "../../store/slices/events";
+
+import styles from "./Day.module.scss";
 
 const Day = (props) => {
     const {
@@ -32,7 +33,6 @@ const Day = (props) => {
 
     const handleUpdateEvent = (event) => {
         dispatch(setSelectedEvent(event));
-        // dispatch(updateEvent(event));
     };
 
     return (
