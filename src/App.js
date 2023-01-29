@@ -21,12 +21,14 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        localStorage.setItem("savedEvents", JSON.stringify(events));
+        if (events.length) {
+            localStorage.setItem("savedEvents", JSON.stringify(events));
+        }
     }, [events]);
 
     useEffect(() => {
         dispatch(getEventsFromLocalStorage());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         setCurrentMonth(getDaysMatrix(monthIndex));
