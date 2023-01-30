@@ -3,4 +3,34 @@
     height: 150px;
 
     border: 1px solid lightgrey;
+
+    padding: 5px;
+
+    overflow-y: auto;
+
+    &__today {
+        background-color: #b2ffb2;
+    }
+
+    &__title {
+        display: flex;
+        justify-content: space-between;
+
+        &__item {
+            color: darkgrey;
+        }
+    }
+    &__event {
+        height: 30px;
+
+        padding: 5px;
+        margin-bottom: 5px;
+
+        border: 1px solid lightsalmon;
+        border-radius: 5px;
+        background-color: #ffcab2;
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }

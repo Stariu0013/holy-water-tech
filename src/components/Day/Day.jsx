@@ -23,8 +23,7 @@ const Day = (props) => {
         setDayEvents(events);
     }, [day, savedEvents]);
 
-    // todo: add background for styles.day if it's today
-    const isTodayClass = day.format("DD-MM-YY") === dayjs().format("DD-MM-YY") ? "" : "";
+    const isTodayClass = day.format("DD-MM-YY") === dayjs().format("DD-MM-YY") ? [styles.day, styles.day__today].join(" ") : styles.day;
 
     const handleClick = () => {
         handleSelectDay(day);
@@ -36,13 +35,15 @@ const Day = (props) => {
     };
 
     return (
-        <div className={styles.day} onClick={handleClick}>
-            <p>{day.format("ddd").toUpperCase()}</p>
-            <p>{day.format("DD")}</p>
+        <div className={isTodayClass} onClick={handleClick}>
+            <div className={styles.day__title}>
+                <p className={styles.day__title__item}>{day.format("ddd").toUpperCase()}</p>
+                <p className={styles.day__title__item}>{day.format("DD")}</p>
+            </div>
 
             {
                 dayEvents?.map((event) => {
-                    return <p onClick={() => handleUpdateEvent(event)} key={event.id}>{event.title}</p>;
+                    return <p className={styles.day__event} onClick={() => handleUpdateEvent(event)} key={event.id}>{event.title}</p>;
                 })
             }
         </div>

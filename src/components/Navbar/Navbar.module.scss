@@ -1,0 +1,57 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+
+    &__addEvent {
+        width: 50px;
+        height: 50px;
+
+        position: relative;
+
+        border: none;
+        border-radius: 50%;
+
+        background-color: royalblue;
+
+        outline: none;
+
+        &::after {
+            content: '';
+            position: absolute;
+
+            background-color: white;
+
+            width: 20px;
+            height: 2px;
+
+            top: 24px;
+            left: 15px;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+
+            background-color: white;
+
+            width: 2px;
+            height: 20px;
+
+            top: 15px;
+            left: 24px;
+        }
+    }
+
+    &__navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        width: 300px;
+
+        &__icon {
+            cursor: pointer;
+        }
+    }
+}
