@@ -49,9 +49,19 @@
         align-items: center;
 
         width: 300px;
+        position: relative;
 
         &__icon {
             cursor: pointer;
+        }
+
+        &__calendar {
+            width: 0;
+            height: 0;
+            border: none;
+            position: absolute;
+            right: 20px;
+            top: 35px;
         }
     }
 }

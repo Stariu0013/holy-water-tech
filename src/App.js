@@ -17,6 +17,7 @@ function App() {
     const [monthIndex, setMonthIndex] = useState(0);
     const [selectedDay, setSelectedDay] = useState(dayjs());
     const [showModal, setShowModal] = useState(false);
+
     const events = useSelector(state => state.event.events);
     const dispatch = useDispatch();
 
@@ -62,6 +63,7 @@ function App() {
                         prev={handlePrevMonth}
                         selectedDay={selectedDay}
                         handleOpenModal={handleOpenModal}
+                        setCurrentMonth={setCurrentMonth}
                 />
                 <Month month={currentMonth}
                        handleSelectDay={handleSelectDay}

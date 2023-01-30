@@ -74,10 +74,10 @@ const EventModal = (props) => {
             {
                 selectedEvent && selectedEvent.updatedAt
                     ? <p className={styles.modal__subtitle}>Updated
-                        at: {dayjs(selectedEvent.updatedAt).format("DD.MM.YYYY hh:mm:ss")}</p>
+                        at: {dayjs(selectedEvent.updatedAt).format("DD.MM.YYYY HH:mm:ss")}</p>
                     : selectedEvent && selectedEvent.createdAt
                         ? <p className={styles.modal__subtitle}>Created
-                            at: {dayjs(selectedEvent.createdAt).format("DD.MM.YYYY hh:mm:ss")}</p>
+                            at: {dayjs(selectedEvent.createdAt).format("DD.MM.YYYY HH:mm:ss")}</p>
                         : null
             }
             <div className={styles.modal__fields}>

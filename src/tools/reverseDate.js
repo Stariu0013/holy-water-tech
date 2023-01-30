@@ -1,5 +1,3 @@
 export const formatDate = date => {
-    const newDate = new Date(date).toLocaleDateString();
-
-    return newDate.split(".").reverse().join("-");
+    return new Date(date).toISOString().split("T")[0];
 };

@@ -43,7 +43,8 @@ const Day = (props) => {
 
             {
                 dayEvents?.map((event) => {
-                    return <p className={styles.day__event} onClick={() => handleUpdateEvent(event)} key={event.id}>{event.title}</p>;
+                    return <p className={styles.day__event} onClick={() => handleUpdateEvent(event)}
+                              key={event.id}>{event.title}</p>;
                 })
             }
         </div>
