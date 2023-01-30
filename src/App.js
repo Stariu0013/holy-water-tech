@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar/Navbar";
 import EventModal from "./components/EventModal/EventModal";
 
 import { getDaysMatrix } from "./tools/getDaysMatrix";
-import { getEventsFromLocalStorage } from "./store/slices/events";
+import { getEventsFromLocalStorage, setSelectedEvent } from "./store/slices/events";
 
 import styles from "./App.module.scss";
 
@@ -48,6 +48,7 @@ function App() {
     };
     const handleCloseModal = () => {
         setShowModal(false);
+        dispatch(setSelectedEvent(null));
     };
 
     return (

@@ -17,7 +17,7 @@ const Navbar = (props) => {
 
     return (
         <div className={styles.navbar}>
-            <button className={styles.navbar__addEvent} onClick={handleOpenModal}/>
+            <button className={styles.navbar__addEvent} onClick={handleOpenModal} />
             <div className={styles.navbar__navigation}>
                 <img className={styles.navbar__navigation__icon} onClick={prev} src={left_icon} alt="left_icon" />
 
