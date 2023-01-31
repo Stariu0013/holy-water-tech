@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import dayjs from "dayjs";
 
 import useInput from "../../hooks/useInput";
 import { pushEvents, removeEvent, updateEvent } from "../../store/slices/events";
 
-import { formatDate } from "../../tools/reverseDate";
+import { formatDate } from "../../tools/formatDate";
 
 import styles from "./EventModal.module.scss";
 
@@ -13,6 +12,7 @@ const EventModal = (props) => {
     const {
         onClose,
         selectedDay,
+        locale,
     } = props;
     const dispatch = useDispatch();
     const selectedEvent = useSelector(state => state.event.selectedEvent);
@@ -39,13 +39,13 @@ const EventModal = (props) => {
                 description: description.value,
                 date: date.value,
                 time: time.value,
-                day: selectedDay ? dayjs(selectedDay).valueOf() : dayjs(new Date(date.value)).valueOf(),
+                day: selectedDay ? selectedDay.valueOf() : new Date(date.value).valueOf(),
                 id: selectedEvent ? selectedEvent.id : Date.now(),
-                createdAt: dayjs().valueOf(),
+                createdAt: new Date().valueOf(),
             };
 
             if (selectedEvent) {
-                calendar.updatedAt = dayjs().valueOf();
+                calendar.updatedAt = new Date().valueOf();
 
                 dispatch(updateEvent(calendar));
             } else {
@@ -55,11 +55,29 @@ const EventModal = (props) => {
             onClose();
         }
     };
+
     const onRemove = () => {
         dispatch(removeEvent(selectedEvent));
 
         onClose();
     };
+
+    const subtitleOptions = {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+    };
+
+    const subtitle = selectedEvent && selectedEvent.updatedAt
+        ? <p className={styles.modal__subtitle}>Updated
+            at: {new Date(selectedEvent?.updatedAt).toLocaleDateString(locale, subtitleOptions)}</p>
+        : selectedEvent && selectedEvent.createdAt
+            ? <p className={styles.modal__subtitle}>Created
+                at: {new Date(selectedEvent?.createdAt).toLocaleDateString(locale, subtitleOptions)}</p>
+            : null;
 
     return (
         <div className={styles.modal}>
@@ -71,15 +89,7 @@ const EventModal = (props) => {
                 }</h2>
                 <div className={styles.modal__titleBlock__close} onClick={onClose} />
             </div>
-            {
-                selectedEvent && selectedEvent.updatedAt
-                    ? <p className={styles.modal__subtitle}>Updated
-                        at: {dayjs(selectedEvent.updatedAt).format("DD.MM.YYYY HH:mm:ss")}</p>
-                    : selectedEvent && selectedEvent.createdAt
-                        ? <p className={styles.modal__subtitle}>Created
-                            at: {dayjs(selectedEvent.createdAt).format("DD.MM.YYYY HH:mm:ss")}</p>
-                        : null
-            }
+            {subtitle}
             <div className={styles.modal__fields}>
                 <label className={styles.modal__fields__label} htmlFor="title">Title *</label>
                 <input className={styles.modal__fields__input} type="text" {...title} id="title"

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import dayjs from "dayjs";
 import React from "react";
 
 import Month from "./components/Month/Month";
@@ -13,10 +12,11 @@ import { getEventsFromLocalStorage, setSelectedEvent } from "./store/slices/even
 import styles from "./App.module.scss";
 
 function App() {
-    const [currentMonth, setCurrentMonth] = useState(getDaysMatrix());
+    const [calendarMonth, setCalendarMonth] = useState(getDaysMatrix());
     const [monthIndex, setMonthIndex] = useState(0);
-    const [selectedDay, setSelectedDay] = useState(dayjs());
+    const [selectedDay, setSelectedDay] = useState(new Date());
     const [showModal, setShowModal] = useState(false);
+    const [locale, setLocale] = useState('uk-UA');
 
     const events = useSelector(state => state.event.events);
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function App() {
     }, [dispatch]);
 
     useEffect(() => {
-        setCurrentMonth(getDaysMatrix(monthIndex));
+        setCalendarMonth(getDaysMatrix(monthIndex));
     }, [monthIndex]);
 
     const handlePrevMonth = () => {
@@ -50,22 +50,29 @@ function App() {
     const handleCloseModal = () => {
         setShowModal(false);
         dispatch(setSelectedEvent(null));
+        handleSelectDay(null);
+    };
+    const handleChangeLocale = (event) => {
+        setLocale(event.target.value);
     };
 
     return (
         <div className={styles.wrapper}>
             <>
                 {
-                    showModal ? <EventModal selectedDay={selectedDay} onClose={handleCloseModal} /> : null
+                    showModal ? <EventModal locale={locale} selectedDay={selectedDay} handleSelectDay={handleSelectDay} onClose={handleCloseModal} /> : null
                 }
                 <Navbar monthIndex={monthIndex}
                         next={handleNextMonth}
                         prev={handlePrevMonth}
                         selectedDay={selectedDay}
                         handleOpenModal={handleOpenModal}
-                        setCurrentMonth={setCurrentMonth}
+                        setCurrentMonth={setCalendarMonth}
+                        locale={locale}
+                        handleChangeLocale={handleChangeLocale}
                 />
-                <Month month={currentMonth}
+                <Month month={calendarMonth}
+                       locale={locale}
                        handleSelectDay={handleSelectDay}
                        handleOpenModal={handleOpenModal}
                 />

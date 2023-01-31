@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import dayjs from "dayjs";
-
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { setSelectedEvent } from "../../store/slices/events";
 
 import styles from "./Day.module.scss";
@@ -11,19 +10,23 @@ const Day = (props) => {
         day,
         handleSelectDay,
         handleOpenModal,
+        locale,
     } = props;
+
+    const thisDate = useMemo(() =>  new Date(day), [day]);
+
     const savedEvents = useSelector(state => state.event.events);
     const dispatch = useDispatch();
 
     const [dayEvents, setDayEvents] = useState([]);
 
     useEffect(() => {
-        const events = savedEvents?.filter(event => dayjs(event.day).format("DD-MM-YY") === day.format("DD-MM-YY"));
+        const events = savedEvents?.filter(event => new Date(event.day).toLocaleDateString() === thisDate.toLocaleDateString());
 
         setDayEvents(events);
-    }, [day, savedEvents]);
+    }, [day, savedEvents, thisDate]);
 
-    const isTodayClass = day.format("DD-MM-YY") === dayjs().format("DD-MM-YY") ? [styles.day, styles.day__today].join(" ") : styles.day;
+    const isTodayClass = thisDate.toLocaleDateString() === new Date().toLocaleDateString() ? [styles.day, styles.day__today].join(" ") : styles.day;
 
     const handleClick = () => {
         handleSelectDay(day);
@@ -37,8 +40,8 @@ const Day = (props) => {
     return (
         <div className={isTodayClass} onClick={handleClick}>
             <div className={styles.day__title}>
-                <p className={styles.day__title__item}>{day.format("ddd").toUpperCase()}</p>
-                <p className={styles.day__title__item}>{day.format("DD")}</p>
+                <p className={styles.day__title__item}>{thisDate.getDate()}</p>
+                <p className={styles.day__title__item}>{thisDate.toLocaleString(locale, { weekday: "long" })}</p>
             </div>
 
             {

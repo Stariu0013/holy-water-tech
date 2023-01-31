@@ -9,6 +9,7 @@ const Month = (props) => {
         month,
         handleSelectDay,
         handleOpenModal,
+        locale,
     } = props;
 
     return (
@@ -21,6 +22,7 @@ const Month = (props) => {
                                 return <Day handleOpenModal={handleOpenModal}
                                             handleSelectDay={handleSelectDay}
                                             day={day} key={dayIndex}
+                                            locale={locale}
                                 />;
                             })
                         }
