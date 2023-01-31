@@ -1,11 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import { setSelectedEvent } from "../../store/slices/events";
+import { useAppDispatch, useAppSelector } from "../../hooks/app";
 
 import styles from "./Day.module.scss";
 
-const Day = (props) => {
+interface DayProps {
+    day: Date;
+    locale: string;
+
+    handleSelectDay: (day: Date) => void;
+    handleOpenModal: () => void;
+}
+
+const Day: React.FC<DayProps> = (props) => {
     const {
         day,
         handleSelectDay,
@@ -15,10 +23,10 @@ const Day = (props) => {
 
     const thisDate = useMemo(() =>  new Date(day), [day]);
 
-    const savedEvents = useSelector(state => state.event.events);
-    const dispatch = useDispatch();
+    const savedEvents = useAppSelector(state => state.event.events);
+    const dispatch = useAppDispatch();
 
-    const [dayEvents, setDayEvents] = useState([]);
+    const [dayEvents, setDayEvents] = useState<IEvent[]>([]);
 
     useEffect(() => {
         const events = savedEvents?.filter(event => new Date(event.day).toLocaleDateString() === thisDate.toLocaleDateString());
@@ -30,10 +38,10 @@ const Day = (props) => {
 
     const handleClick = () => {
         handleSelectDay(day);
-        handleOpenModal(true);
+        handleOpenModal();
     };
 
-    const handleUpdateEvent = (event) => {
+    const handleUpdateEvent = (event: IEvent) => {
         dispatch(setSelectedEvent(event));
     };
 

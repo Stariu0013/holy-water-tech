@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, useEffect, useState } from "react";
 import React from "react";
 
 import Month from "./components/Month/Month";
 import Navbar from "./components/Navbar/Navbar";
 import EventModal from "./components/EventModal/EventModal";
 
+import { useAppDispatch, useAppSelector } from "./hooks/app";
 import { getDaysMatrix } from "./tools/getDaysMatrix";
 import { getEventsFromLocalStorage, setSelectedEvent } from "./store/slices/events";
 
 import styles from "./App.module.scss";
 
 function App() {
-    const [calendarMonth, setCalendarMonth] = useState(getDaysMatrix());
-    const [monthIndex, setMonthIndex] = useState(0);
-    const [selectedDay, setSelectedDay] = useState(new Date());
-    const [showModal, setShowModal] = useState(false);
-    const [locale, setLocale] = useState('uk-UA');
+    const [calendarMonth, setCalendarMonth] = useState<Date[][]>(getDaysMatrix());
+    const [monthIndex, setMonthIndex] = useState<number>(0);
+    const [selectedDay, setSelectedDay] = useState<Date | null>(new Date());
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [locale, setLocale] = useState<string>('uk-UA');
 
-    const events = useSelector(state => state.event.events);
-    const dispatch = useDispatch();
+    const events = useAppSelector(state => state.event.events);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (events.length) {
@@ -41,7 +41,7 @@ function App() {
     const handleNextMonth = () => {
         setMonthIndex(prevState => prevState + 1);
     };
-    const handleSelectDay = (day) => {
+    const handleSelectDay = (day: Date | null) => {
         setSelectedDay(day);
     };
     const handleOpenModal = () => {
@@ -52,7 +52,7 @@ function App() {
         dispatch(setSelectedEvent(null));
         handleSelectDay(null);
     };
-    const handleChangeLocale = (event) => {
+    const handleChangeLocale = (event: ChangeEvent<HTMLSelectElement>) => {
         setLocale(event.target.value);
     };
 
@@ -60,12 +60,11 @@ function App() {
         <div className={styles.wrapper}>
             <>
                 {
-                    showModal ? <EventModal locale={locale} selectedDay={selectedDay} handleSelectDay={handleSelectDay} onClose={handleCloseModal} /> : null
+                    showModal ? <EventModal locale={locale} selectedDay={selectedDay} onClose={handleCloseModal} /> : null
                 }
                 <Navbar monthIndex={monthIndex}
                         next={handleNextMonth}
                         prev={handlePrevMonth}
-                        selectedDay={selectedDay}
                         handleOpenModal={handleOpenModal}
                         setCurrentMonth={setCalendarMonth}
                         locale={locale}

@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface InitialState {
+    events: IEvent[];
+    selectedEvent: IEvent | null
+}
+
+const initialState: InitialState = {
     events: [],
     selectedEvent: null,
 };
@@ -23,7 +28,7 @@ export const eventsSlice = createSlice({
         setSelectedEvent: (state, action) => {
             state.selectedEvent = action.payload;
         },
-        getEventsFromLocalStorage: (state, action) => {
+        getEventsFromLocalStorage: (state) => {
             const savedEvents = localStorage.getItem("savedEvents");
 
             state.events = savedEvents ? JSON.parse(savedEvents) : [];

@@ -1,4 +1,4 @@
-export function getDaysMatrix(month = new Date().getMonth(), year = new Date().getFullYear()) {
+export function getDaysMatrix(month: number = new Date().getMonth(), year: number = new Date().getFullYear()) {
     const firstDayOfTheMonth = new Date(year, month, 1).getDay();
 
     let currentMonthCount = 0 - firstDayOfTheMonth;

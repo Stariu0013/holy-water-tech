@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+    ChangeEvent,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 
 import calendarIcon from "../../assets/img/calendar.svg";
 import left_icon from "../../assets/img/left-arrow.png";
@@ -9,8 +15,20 @@ import { AVAILABLE_LOCALES } from "../../consts/i18n";
 import { getDaysMatrix } from "../../tools/getDaysMatrix";
 
 import styles from "./Navbar.module.scss";
+import { DateEnum } from "../../types/date";
 
-const Navbar = (props) => {
+interface NavbarProps {
+    monthIndex: number,
+    locale: string,
+
+    next: () => void,
+    prev: () => void,
+    handleOpenModal: () => void,
+    setCurrentMonth: (daysMatrix: Date[][]) => void,
+    handleChangeLocale: (event: ChangeEvent<HTMLSelectElement>) => void,
+}
+
+const Navbar: React.FC<NavbarProps> = (props) => {
     const {
         next,
         prev,
@@ -21,8 +39,9 @@ const Navbar = (props) => {
         handleChangeLocale,
     } = props;
 
-    const dateOptions = useMemo(() => ({
-        year: "numeric", month: "long",
+    const dateOptions: Intl.DateTimeFormatOptions = useMemo(() => ({
+        year: DateEnum.NUMERIC,
+        month: DateEnum.LONG,
     }), []);
 
     const [currentDateTitle, setCurrentDateTitle] = useState(new Date(new Date().getFullYear(), monthIndex).toLocaleString(locale, dateOptions));
@@ -31,13 +50,13 @@ const Navbar = (props) => {
         setCurrentDateTitle(new Date(new Date().getFullYear(), monthIndex).toLocaleString(locale, dateOptions));
     }, [locale, dateOptions, monthIndex]);
 
-    const ref = useRef();
+    const ref = useRef<HTMLInputElement>(null);
 
     const handleOpenCalendar = () => {
-        ref.current.showPicker();
+        ref.current?.showPicker();
     };
 
-    const handleChangeCalendar = (event) => {
+    const handleChangeCalendar = (event: ChangeEvent<HTMLInputElement>) => {
         const date = event.target.value;
 
         const newDate = new Date(date);

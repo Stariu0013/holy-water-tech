@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+import { DateEnum } from "../../types/date";
 
 import useInput from "../../hooks/useInput";
 import { pushEvents, removeEvent, updateEvent } from "../../store/slices/events";
@@ -7,15 +8,23 @@ import { pushEvents, removeEvent, updateEvent } from "../../store/slices/events"
 import { formatDate } from "../../tools/formatDate";
 
 import styles from "./EventModal.module.scss";
+import { useAppDispatch, useAppSelector } from "../../hooks/app";
 
-const EventModal = (props) => {
+interface EventModalProps {
+    selectedDay: Date | null;
+    locale: string;
+
+    onClose: () => void;
+}
+
+const EventModal: React.FC<EventModalProps> = (props) => {
     const {
         onClose,
         selectedDay,
         locale,
     } = props;
-    const dispatch = useDispatch();
-    const selectedEvent = useSelector(state => state.event.selectedEvent);
+    const dispatch = useAppDispatch();
+    const selectedEvent = useAppSelector(state => state.event.selectedEvent);
 
     const title = useInput(selectedEvent ? selectedEvent.title : "");
     const description = useInput(selectedEvent ? selectedEvent.description : "");
@@ -34,7 +43,7 @@ const EventModal = (props) => {
         }
 
         if (date.value && title.value) {
-            const calendar = {
+            const calendar: IEvent = {
                 title: title.value,
                 description: description.value,
                 date: date.value,
@@ -62,13 +71,13 @@ const EventModal = (props) => {
         onClose();
     };
 
-    const subtitleOptions = {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
+    const subtitleOptions: Intl.DateTimeFormatOptions = {
+        year: DateEnum.NUMERIC,
+        month: DateEnum.LONG,
+        day: DateEnum.DIGITS,
+        hour: DateEnum.DIGITS,
+        minute: DateEnum.DIGITS,
+        second: DateEnum.DIGITS,
     };
 
     const subtitle = selectedEvent && selectedEvent.updatedAt

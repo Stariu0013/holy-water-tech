@@ -4,7 +4,15 @@ import Day from "../Day/Day";
 
 import styles from "./Month.module.scss";
 
-const Month = (props) => {
+interface MonthProps {
+    month: Date[][],
+    locale: string;
+
+    handleSelectDay: (day: Date) => void,
+    handleOpenModal: () => void;
+}
+
+const Month: React.FC<MonthProps> = (props) => {
     const {
         month,
         handleSelectDay,
