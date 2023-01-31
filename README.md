@@ -2,4 +2,4 @@
 
 ### To start project use `npm start`
 
-## Deployed - https://github.com/Stariu0013/holy-water-tech
+## Deployed - https://holy-water-tech.netlify.app/
